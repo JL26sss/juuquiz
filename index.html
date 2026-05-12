@@ -1,134 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
-<head>
+<html lang="en">
+
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emoji 猜成語翻翻卡</title>
-    <style>
-        body {
-            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
-            background-color: #f0f4f8;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1 { color: #333; margin-bottom: 30px; }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1000px;
-        }
-        .card { background-color: transparent; width: 100%; height: 150px; perspective: 1000px; }
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border-radius: 15px;
-        }
-        .card.is-flipped .card-inner { transform: rotateY(180deg); }
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 15px;
-            border: 2px solid #e1e8ed;
-        }
-        .card-front { background-color: #ffffff; font-size: 32px; }
-        .card-back {
-            background-color: #4a90e2;
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            transform: rotateY(180deg);
-        }
-        .hint { font-size: 12px; color: #888; margin-top: 10px; }
-        .card-back .hint { color: #d1e3f8; }
-        .number-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 14px;
-            background-color: #eee;
-            color: #666;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-        .card-back .number-badge { background-color: #357ebd; color: #fff; }
-    </style>
-</head>
-<body>
+    <title>Untitled</title>
+    <link rel="stylesheet" href="./style.css">
 
-    <h1>🎈 Emoji 猜成語翻翻卡 📖</h1>
-    <div class="grid-container" id="card-container"></div>
+  </head>
+    
+  <body>
+  <h1>🎈 Emoji 猜成語翻翻卡 📖</h1>
+<div class="grid-container" id="card-container">
+    <!-- 卡牌將透過 JavaScript 自動生成 -->
+</div>
+    <script  src="./script.js"></script>
 
-    <script>
-        const idioms = [
-            { id: 1, emoji: "🎈👄8️⃣👅", text: "七嘴八舌" },
-            { id: 2, emoji: "豬朋狗友", emoji: "🐷👫🐶👫", text: "豬朋狗友" },
-            { id: 3, emoji: "☝️🚀🀄️👩‍❤️‍👨", text: "一見鍾情" },
-            { id: 4, emoji: "🐓👨♎️🐘", text: "吉人天相" },
-            { id: 5, emoji: "👣🐎👀💐", text: "走馬看花" },
-            { id: 6, emoji: "❤️🍎🐧🦛", text: "心平氣和" },
-            { id: 7, emoji: "🐢🐰💩🏃", text: "龜兔賽跑" },
-            { id: 8, emoji: "📖🍌🚪🧑‍🤝‍🧑", text: "書香門第" },
-            { id: 9, emoji: "🇹🇼🐯👨👇", text: "騎虎難下" },
-            { id: 10, emoji: "🐟🎵🌀🍚", text: "餘音繞樑" },
-            { id: 11, emoji: "雞犬不寧", emoji: "雞🐶❌🍋", text: "雞犬不寧" },
-            { id: 12, emoji: "🎨🐲⚡️👁️", text: "畫龍點睛" },
-            { id: 13, emoji: "🫴🧱🪱💎", text: "拋磚引玉" },
-            { id: 14, emoji: "1️⃣🗡️❄️🦅", text: "一箭雙鵰" },
-            { id: 15, emoji: "💀🐑🛠️👨🏻‍🦳", text: "亡羊補牢" },
-            { id: 16, emoji: "🫁🈶🏰🎋", text: "胸有成竹" },
-            { id: 17, emoji: "🥤💧🚗🪵", text: "杯水車薪" },
-            { id: 18, emoji: "👅🧂🍯🐟", text: "甜言蜜語" },
-            { id: 19, emoji: "🦩🧍🏿‍♂️雞裙", emoji: "🦩🧍🏿‍♂️🐔👗", text: "鶴立雞群" },
-            { id: 20, emoji: "🙉👂🔪🔔", text: "掩耳盜鈴" },
-            { id: 21, emoji: "⛰️🤝🌊💍", text: "山盟海誓" },
-            { id: 22, emoji: "👣👣🍰花生", emoji: "👣👣🍰🥜", text: "步步高升" },
-            { id: 23, emoji: "❤️📷🙅🏼‍♀️📢", text: "心照不宣" },
-            { id: 24, emoji: "🪢🥬👔👔", text: "神彩奕奕" },
-            { id: 25, emoji: "🐔✈️🐶💃", text: "雞飛狗跳" },
-            { id: 26, emoji: "🍺💦🚗❤️", text: "杯水車薪" },
-            { id: 27, emoji: "👄🦁❤️✈️", text: "口是心非" },
-            { id: 28, emoji: "🔭👀🐟🚢", text: "望眼欲穿" },
-            { id: 29, emoji: "🚩❤️👞🌰", text: "齊心協力" },
-            { id: 30, emoji: "🚗💦🐎🐲", text: "車水馬龍" },
-            { id: 31, emoji: "🥬🍓豬馬", emoji: "🥬🍓🐷🐎", text: "青梅竹馬" }
-        ];
-
-        const container = document.getElementById('card-container');
-
-        idioms.forEach(item => {
-            const card = document.createElement('div');
-            card.classList.add('card');
-            const cardInner = document.createElement('div');
-            cardInner.classList.add('card-inner');
-            const cardFront = document.createElement('div');
-            cardFront.classList.add('card-front');
-            cardFront.innerHTML = `<div class="number-badge">${item.id}</div><div>${item.emoji}</div><div class="hint">點擊翻轉看答案 👇</div>`;
-            const cardBack = document.createElement('div');
-            cardBack.classList.add('card-back');
-            cardBack.innerHTML = `<div class="number-badge">${item.id}</div><div>${item.text}</div><div class="hint">點擊翻回正面 👆</div>`;
-            cardInner.appendChild(cardFront);
-            cardInner.appendChild(cardBack);
-            card.appendChild(cardInner);
-            card.addEventListener('click', () => { card.classList.toggle('is-flipped'); });
-            container.appendChild(card);
-        });
-    </script>
-</body>
+  </body>
+  
 </html>
